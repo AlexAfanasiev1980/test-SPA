@@ -1,0 +1,66 @@
+.cards {
+  margin: 50px 0 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 210px));
+  grid-template-rows: repeat(auto-fit, minmax(250px, 1fr));
+  grid-auto-flow: row;
+  gap: 10px;
+}
+
+.card {
+  width: 210px;
+  height: 350px;
+  display: flex;
+  padding: 5px;
+  box-sizing: border-box;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+}
+
+.header {
+  margin: 0;
+}
+
+.wrapper {
+  padding: 10px 10px 0 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.img {
+  border-radius: 10px 10px 0 0;
+  width: 200px;
+  height: 250px;
+  object-fit: cover;
+  margin: 0;
+}
+
+.like {
+  cursor: pointer;
+}
+
+.like_active > svg {
+  fill: #c41010;
+}
+
+.like_active > g {
+  fill: #c41010;
+}
+
+.card:hover {
+  position: relative;
+  top: -3px;
+}
