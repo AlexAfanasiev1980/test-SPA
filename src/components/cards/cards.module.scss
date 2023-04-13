@@ -5,6 +5,14 @@
   align-items: center;
 }
 
+.delete {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  cursor: pointer;
+  z-index: 2;
+}
+
 .list {
   list-style-type: none;
   padding: 0;
@@ -19,6 +27,7 @@
 }
 
 .card {
+  position: relative;
   width: 210px;
   height: 350px;
   display: flex;

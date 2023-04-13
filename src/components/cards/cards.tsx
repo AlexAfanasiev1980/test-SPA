@@ -1,6 +1,8 @@
+import React, { useState, useEffect } from "react";
 import styles from "./cards.module.scss";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { TDog } from "../../services/redusers/redusers";
+import Delete from "../../pages/delete.svg";
 
 const Card = (props) => {
   const {
@@ -12,6 +14,7 @@ const Card = (props) => {
 
   return (
     <li className={styles.card}>
+      <img src={Delete} alt='icon delete' className={styles.delete} onClick={(e) => props.onDelete(e, id)}/>
       <img src={img} alt='dog' className={styles.img} />
       <div className={styles.wrapper}>
         <h2 className={styles.header}>{name}</h2>
@@ -30,8 +33,8 @@ const Card = (props) => {
             viewBox='0 0 486.926 486.926'
             xmlSpace='preserve'
           >
-            <g >
-              <path 
+            <g>
+              <path
                 d='M462.8,181.564c-12.3-10.5-27.7-16.2-43.3-16.2h-15.8h-56.9h-32.4v-75.9c0-31.9-9.3-54.9-27.7-68.4
 		c-29.1-21.4-69.2-9.2-70.9-8.6c-5,1.6-8.4,6.2-8.4,11.4v84.9c0,27.7-13.2,51.2-39.3,69.9c-19.5,14-39.4,20.1-41.5,20.8l-2.9,0.7
 		c-4.3-7.3-12.2-12.2-21.3-12.2H24.7c-13.6,0-24.7,11.1-24.7,24.7v228.4c0,13.6,11.1,24.7,24.7,24.7h77.9c7.6,0,14.5-3.5,19-8.9
@@ -51,19 +54,16 @@ const Card = (props) => {
 };
 
 function Cards(props) {
-  const {filter} = props;
+  const [dogArr, setDogArr] = useState<TDog[]>([]);
+  const { filter } = props;
   const dogs: TDog[] = useSelector((state: TDog[]) => {
     return state;
   });
 
-  const dispatch = useDispatch();
-
   const handleLike = (e, id: string): void => {
     e.preventDefault();
-    console.log(id);
-    const payload = dogs.map((el) => {
+    const payload = dogArr.map((el) => {
       if (el.id === id) {
-        console.log(el);
         return {
           ...el,
           like: !el.like,
@@ -71,18 +71,44 @@ function Cards(props) {
       }
       return el;
     });
-    dispatch({ type: "LIKE", payload });
+    setDogArr(payload);
   };
+
+  const handleDelete = (e, id: string): void => {
+    e.preventDefault();
+    console.log(id)
+    const payload = dogArr.filter((el) => el.id !== id);
+    setDogArr(payload);
+  };
+
+  useEffect(() => {
+    const arr = dogs.filter((el, index) => index < 12);
+    setDogArr(arr);
+  }, [dogs]);
 
   return (
     <section className={styles.cards}>
       <ul className={styles.list}>
-        {dogs.length &&
-          dogs.map((el, index) => {
-            if (index < 12 && !filter) {
-              return <Card card={el} onClick={handleLike} key={index} />;
-            } else if (index < 10 && filter && el.like === true) {
-              return <Card card={el} onClick={handleLike} key={index} />;
+        {dogArr &&
+          dogArr.map((el, index) => {
+            if (!filter) {
+              return (
+                <Card
+                  card={el}
+                  onClick={handleLike}
+                  onDelete={handleDelete}
+                  key={index}
+                />
+              );
+            } else if (filter && el.like === true) {
+              return (
+                <Card
+                  card={el}
+                  onClick={handleLike}
+                  onDelete={handleDelete}
+                  key={index}
+                />
+              );
             }
             return null;
           })}
