@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from "./app.module.scss";
+import styles from './app.module.scss';
 import { useDispatch } from "react-redux";
 import { getData } from "../../services/api";
 
